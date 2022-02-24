@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import useAxios from "hooks/useAxios";
 import type { FC } from "react";
 import Avatar from "components/Avatar";
 import styled from "styled-components";
 import colors from "styles/colors";
+import { API } from "config";
 
 const LinkPage: FC = () => {
-  const [linkData, setLinkData] = useState([]);
-
-  useEffect(() => {
-    async () => {
-      const { data: result } = await axios.get(
-        "https://storage-fe.fastraffic.io/homeworks/links"
-      );
-      return result;
-    };
-  }, []);
+  const url = `${API.linkList}`;
+  const { data } = useAxios(url);
+  console.log(data);
 
   // const getData = async () => {
   //   const { data: result } = await axios.get(

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { API } from "config";
+import { FileListRoot } from "../../types/fileList";
 
 const useAxios = (url: string) => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<FileListRoot>([]);
 
   useEffect(() => {
     fetchData(url);

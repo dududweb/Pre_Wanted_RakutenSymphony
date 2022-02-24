@@ -17,7 +17,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["."],
   "paths": {
     "pages/*": ["pages/*"],
     "components/*": ["components/*"],
@@ -25,6 +25,7 @@
     "styles/*": ["styles/*"],
     "utils/*": ["utils/*"],
     "hooks/*": ["hooks/*"],
-    "lib/*": ["lib/*"]
+    "lib/*": ["lib/*"],
+    "types/*": ["types/*"]
   }
 }

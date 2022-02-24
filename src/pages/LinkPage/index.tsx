@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import type { FC } from "react";
 import Avatar from "components/Avatar";
 import styled from "styled-components";
 import colors from "styles/colors";
 
 const LinkPage: FC = () => {
+  const [linkData, setLinkData] = useState([]);
+
+  useEffect(() => {
+    async () => {
+      const { data: result } = await axios.get(
+        "https://storage-fe.fastraffic.io/homeworks/links"
+      );
+      return result;
+    };
+  }, []);
+
+  // const getData = async () => {
+  //   const { data: result } = await axios.get(
+  //     "https://storage-fe.fastraffic.io/homeworks/links"
+  //   );
+  //   return result;
+  // };
+
   return (
     <>
       <Title>마이 링크</Title>

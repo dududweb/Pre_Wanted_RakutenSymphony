@@ -1,10 +1,17 @@
 import React from "react";
 import type { FC } from "react";
+import useAxios from "hooks/useAxios";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
+import { API } from "config";
 
 const DetailPage: FC = () => {
+  const { linkDetailId } = useParams();
+  const url = `${API.linkList}`;
+  const { data } = useAxios(url);
+
   return (
     <>
       <Header>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { FileListRoot } from "../../types/fileList";
+import { FileListRoot } from "types/fileList";
 
 const useAxios = (url: string) => {
   const [data, setData] = useState<FileListRoot>([]);

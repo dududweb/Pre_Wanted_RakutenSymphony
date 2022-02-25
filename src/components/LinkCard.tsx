@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import type { FC } from "react";
 import styled from "styled-components";
@@ -17,20 +17,34 @@ interface LinkCardProps {
 }
 
 const LinkCard = ({ fileList }: LinkCardProps) => {
+  const [유효시간, 유효시간설정] = useState<number | string>();
+
   const navigate = useNavigate();
   const goToDetail = () => {
     navigate(`/detailpage/${fileList.key}`);
   };
 
-  const current = new Date();
-  const exdate = new Date(fileList.expires_at * 1000);
-  console.log("test", differenceInDays(current, exdate));
-  const expiredDate = differenceInDays(current, exdate);
-  const expiredHours = differenceInHours(current, exdate);
-  const expiredMinutes = differenceInMinutes(current, exdate);
+  const getExpiredTime = () => {
+    const createdDate = new Date(fileList.created_at * 1000);
+    const expiresDate = new Date(fileList.expires_at * 1000);
+    const expiredDate = differenceInDays(expiresDate, createdDate);
+    const expiredHours = differenceInHours(expiresDate, createdDate);
+    const expiredMinutes = differenceInMinutes(expiresDate, createdDate);
+    if (expiredDate >= 2) {
+      유효시간설정(`${expiredDate}일`);
+    } else {
+      유효시간설정(`${expiredHours}시간${expiredMinutes}분`);
+    }
+  };
+
+  setInterval(getExpiredTime, 60000);
+
+  useEffect(() => {
+    getExpiredTime();
+  }, []);
 
   return (
-    <TableRow onClick={goToDetail}>
+    <TableRow>
       <TableCell>
         <LinkInfo>
           <LinkImage>
@@ -38,7 +52,9 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
           </LinkImage>
           <LinkTexts>
             <LinkTitle>로고파일</LinkTitle>
-            <LinkUrl>{fileList.summary}</LinkUrl>
+            <LinkUrl onClick={goToDetail}>
+              {유효시간 ? fileList.summary : "만료됨"}
+            </LinkUrl>
           </LinkTexts>
         </LinkInfo>
         <span />
@@ -53,11 +69,7 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
       </TableCell>
       <TableCell>
         <span>유효기간</span>
-        <span>
-          {expiredDate >= 2
-            ? `${expiredDate}일`
-            : `${expiredHours}시간 ${expiredMinutes}분`}
-        </span>
+        <span>{유효시간 ? 유효시간 : "만료됨"}</span>
       </TableCell>
       <TableCell>
         <span>받은사람</span>

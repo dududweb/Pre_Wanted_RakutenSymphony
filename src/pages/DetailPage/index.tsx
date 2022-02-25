@@ -14,9 +14,7 @@ const DetailPage: FC = () => {
   console.log(linkDetailId);
 
   const findLinkPage = data.find((el) => el.key == linkDetailId);
-  const detailPageInfo = findLinkPage?.files[0];
   console.log(data);
-  console.log(detailPageInfo?.key);
 
   return (
     <>
@@ -41,9 +39,10 @@ const DetailPage: FC = () => {
             <Bottom>1</Bottom>
           </Texts>
           <LinkImage>
-            <Image thumbnailUrl={detailPageInfo?.thumbnailUrl} />
+            <Image thumbnailUrl={findLinkPage?.thumbnailUrl} />
           </LinkImage>
         </Descrition>
+        findLinkPage
         <ListSummary>
           <div>총 1개의 파일</div>
           <div>10.86KB</div>

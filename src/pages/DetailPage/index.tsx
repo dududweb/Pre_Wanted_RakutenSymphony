@@ -6,6 +6,7 @@ import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
 import { API } from "config";
+import { format } from "date-fns";
 
 const DetailPage: FC = () => {
   const { linkDetailId } = useParams();
@@ -14,7 +15,17 @@ const DetailPage: FC = () => {
   console.log(linkDetailId);
 
   const findLinkPage = data.find((el) => el.key == linkDetailId);
-  console.log(data);
+
+  const createdDate = new Date(data.fileList.created_at * 1000);
+
+  const getCreatedDate = {
+    year: format(createdDate, "yyyy"),
+    month: format(createdDate, "MM"),
+    day: format(createdDate, "dd"),
+    hours: format(createdDate, "HH"),
+    minutes: format(createdDate, "HH"),
+    sec: format(createdDate, "mm"),
+  };
 
   return (
     <>
@@ -42,19 +53,22 @@ const DetailPage: FC = () => {
             <Image thumbnailUrl={findLinkPage?.thumbnailUrl} />
           </LinkImage>
         </Descrition>
-        findLinkPage
         <ListSummary>
-          <div>총 1개의 파일</div>
+          <div>총 {findLinkPage?.files.length}개의 파일</div>
           <div>10.86KB</div>
         </ListSummary>
         <FileList>
-          <FileListItem>
-            <FileItemInfo>
-              <span />
-              <span>logo.png</span>
-            </FileItemInfo>
-            <FileItemSize>10.86KB</FileItemSize>
-          </FileListItem>
+          {findLinkPage?.files.map((items) => {
+            return (
+              <FileListItem>
+                <FileItemInfo>
+                  <span thumbnailUrl={items?.thumbnailUrl} />
+                  <span>{items.name}</span>
+                </FileItemInfo>
+                <FileItemSize>{items.size}KB</FileItemSize>
+              </FileListItem>
+            );
+          })}
         </FileList>
       </Article>
     </>

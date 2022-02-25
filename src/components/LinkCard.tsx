@@ -24,9 +24,20 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
     navigate(`/detailpage/${fileList.key}`);
   };
 
+  const createdDate = new Date(fileList.created_at * 1000);
+  const expiresDate = new Date(fileList.expires_at * 1000);
+  console.log("test", createdDate);
+
+  const getCreatedDate = {
+    year: format(createdDate, "yyyy"),
+    month: format(createdDate, "MM"),
+    day: format(createdDate, "dd"),
+    hours: format(createdDate, "HH"),
+    minutes: format(createdDate, "HH"),
+    sec: format(createdDate, "mm"),
+  };
+
   const getExpiredTime = () => {
-    const createdDate = new Date(fileList.created_at * 1000);
-    const expiresDate = new Date(fileList.expires_at * 1000);
     const expiredDate = differenceInDays(expiresDate, createdDate);
     const expiredHours = differenceInHours(expiresDate, createdDate);
     const expiredMinutes = differenceInMinutes(expiresDate, createdDate);

@@ -17,7 +17,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["src", "custom.d.ts"],
   "paths": {
     "pages/*": ["pages/*"],
     "components/*": ["components/*"],

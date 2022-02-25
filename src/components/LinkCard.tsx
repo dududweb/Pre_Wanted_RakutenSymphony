@@ -5,6 +5,12 @@ import styled from "styled-components";
 import colors from "styles/colors";
 import Avatar from "components/Avatar";
 import { FileList } from "types/fileList";
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+  format,
+} from "date-fns";
 
 interface LinkCardProps {
   fileList: FileList;
@@ -13,8 +19,15 @@ interface LinkCardProps {
 const LinkCard = ({ fileList }: LinkCardProps) => {
   const navigate = useNavigate();
   const goToDetail = () => {
-    navigate(`/detailpage${fileList.key}`);
+    navigate(`/detailpage/${fileList.key}`);
   };
+
+  const current = new Date();
+  const exdate = new Date(fileList.expires_at * 1000);
+  console.log("test", differenceInDays(current, exdate));
+  const expiredDate = differenceInDays(current, exdate);
+  const expiredHours = differenceInHours(current, exdate);
+  const expiredMinutes = differenceInMinutes(current, exdate);
 
   return (
     <TableRow onClick={goToDetail}>
@@ -25,7 +38,7 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
           </LinkImage>
           <LinkTexts>
             <LinkTitle>로고파일</LinkTitle>
-            <LinkUrl>localhost/7LF4MDLY</LinkUrl>
+            <LinkUrl>{fileList.summary}</LinkUrl>
           </LinkTexts>
         </LinkInfo>
         <span />
@@ -40,7 +53,11 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
       </TableCell>
       <TableCell>
         <span>유효기간</span>
-        <span>48시간 00분</span>
+        <span>
+          {expiredDate >= 2
+            ? `${expiredDate}일`
+            : `${expiredHours}시간 ${expiredMinutes}분`}
+        </span>
       </TableCell>
       <TableCell>
         <span>받은사람</span>

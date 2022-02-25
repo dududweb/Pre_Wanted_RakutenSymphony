@@ -11,6 +11,12 @@ const DetailPage: FC = () => {
   const { linkDetailId } = useParams();
   const url = `${API.linkList}`;
   const { data } = useAxios(url);
+  console.log(linkDetailId);
+
+  const findLinkPage = data.find((el) => el.key == linkDetailId);
+  const detailPageInfo = findLinkPage?.files[0];
+  console.log(data);
+  console.log(detailPageInfo?.key);
 
   return (
     <>
@@ -35,7 +41,7 @@ const DetailPage: FC = () => {
             <Bottom>1</Bottom>
           </Texts>
           <LinkImage>
-            <Image />
+            <Image thumbnailUrl={detailPageInfo?.thumbnailUrl} />
           </LinkImage>
         </Descrition>
         <ListSummary>
@@ -161,10 +167,10 @@ const LinkImage = styled.div`
   }
 `;
 
-const Image = styled.span`
+const Image = styled.span<{ thumbnailUrl?: string }>`
   width: 120px;
   display: inline-block;
-  background-image: url(/svgs/default.svg);
+  background-image: url("/svgs/adefltu.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;

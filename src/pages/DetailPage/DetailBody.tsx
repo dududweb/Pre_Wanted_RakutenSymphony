@@ -5,11 +5,12 @@ import styled from "styled-components";
 import colors from "styles/colors";
 
 interface DetailBodyProps {
-  findLinkPage?: FileLists | undefined;
+  findLinkPage?: FileLists;
 }
 
 const DetailBody = ({ findLinkPage }: DetailBodyProps) => {
-  const createdDate = new Date(findLinkPage?.created_at * 1000);
+  const timestamp = findLinkPage?.created_at * 1000;
+  const createdDate = new Date(timestamp);
   const getCreadtedYear = createdDate.getFullYear();
   const getCreadteMonth = createdDate.getMonth() + 1;
   const getCreadteDay = createdDate.getDay();

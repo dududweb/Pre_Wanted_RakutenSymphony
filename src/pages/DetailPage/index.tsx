@@ -14,7 +14,7 @@ const DetailPage: FC = () => {
   const { data } = useAxios(url);
   const { linkDetailId } = useParams();
 
-  const findLinkPage = data?.find((el: any) => el.key == linkDetailId);
+  const findLinkPage = data?.find((el) => el.key == linkDetailId);
 
   const handleDownload = () => {
     alert(`다운로드 되었습니다.`);
@@ -36,7 +36,7 @@ const DetailPage: FC = () => {
           받기
         </DownloadButton>
       </Header>
-      <DetailBody findLinkPage={findLinkPage} />
+      {findLinkPage && <DetailBody findLinkPage={findLinkPage} />}
     </>
   );
 };

@@ -6,10 +6,6 @@ export const transformingDate = (timestamp: number) => {
   return `${day}`;
 };
 
-interface calcDateDiffProps {
-  type: string;
-}
-
 export const clipboardCopy = (text: string, url: string): void => {
   if (navigator.clipboard) {
     navigator.clipboard

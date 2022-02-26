@@ -10,7 +10,6 @@ import { FileLists } from "types/fileList";
 const LinkPage: FC = () => {
   const url = `${API.linkList}`;
   const { data } = useAxios(url);
-  console.log(data);
 
   return (
     <>

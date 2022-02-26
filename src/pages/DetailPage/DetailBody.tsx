@@ -5,11 +5,11 @@ import styled from "styled-components";
 import colors from "styles/colors";
 
 interface DetailBodyProps {
-  findLinkPage?: FileLists;
+  findLinkPage: FileLists;
 }
 
 const DetailBody = ({ findLinkPage }: DetailBodyProps) => {
-  const timestamp = findLinkPage?.created_at * 1000;
+  const timestamp = findLinkPage.created_at * 1000;
   const createdDate = new Date(timestamp);
   const getCreadtedYear = createdDate.getFullYear();
   const getCreadteMonth = createdDate.getMonth() + 1;
@@ -28,16 +28,16 @@ const DetailBody = ({ findLinkPage }: DetailBodyProps) => {
             {`${getCreadtedYear}년 ${getCreadteMonth}월 ${getCreadteDay}일 ${getCreadteHours}:${getCreadteMinutes} +09:00`}
           </Bottom>
           <Top>메세지</Top>
-          <Bottom>{findLinkPage?.sent.content}</Bottom>
+          <Bottom>{findLinkPage.sent.content}</Bottom>
           <Top>다운로드 횟수</Top>
-          <Bottom>{findLinkPage?.download_count}</Bottom>
+          <Bottom>{findLinkPage.download_count}</Bottom>
         </Texts>
         <LinkImage>
           <Image />
         </LinkImage>
       </Descrition>
       <ListSummary>
-        <div>총 {findLinkPage?.count}개의 파일</div>
+        <div>총 {findLinkPage.count}개의 파일</div>
         <div>{getSize}</div>
       </ListSummary>
       <FileList>

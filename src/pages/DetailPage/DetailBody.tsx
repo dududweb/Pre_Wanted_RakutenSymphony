@@ -28,7 +28,8 @@ const DetailBody = ({ findLinkPage }: DetailBodyProps) => {
             {`${getCreadtedYear}년 ${getCreadteMonth}월 ${getCreadteDay}일 ${getCreadteHours}:${getCreadteMinutes} +09:00`}
           </Bottom>
           <Top>메세지</Top>
-          <Bottom>{findLinkPage.sent.content}</Bottom>
+          {findLinkPage.sent && <Bottom>{findLinkPage.sent.content}</Bottom>}
+
           <Top>다운로드 횟수</Top>
           <Bottom>{findLinkPage.download_count}</Bottom>
         </Texts>
@@ -122,7 +123,7 @@ const LinkImage = styled.div`
 const Image = styled.span<{ thumbnailUrl?: string }>`
   width: 120px;
   display: inline-block;
-  background-image: url("/svgs/adefltu.svg");
+  background-image: url(/svgs/adefltu.svg);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;

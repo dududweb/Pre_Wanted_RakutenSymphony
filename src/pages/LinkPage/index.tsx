@@ -5,7 +5,7 @@ import styled from "styled-components";
 import colors from "styles/colors";
 import { API } from "config";
 import LinkCard from "components/LinkCard";
-import { FileList } from "types/fileList";
+import { FileLists } from "types/fileList";
 
 const LinkPage: FC = () => {
   const url = `${API.linkList}`;
@@ -26,7 +26,7 @@ const LinkPage: FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data?.map((fileList: FileList) => {
+          {data?.map((fileList: FileLists) => {
             return <LinkCard key={fileList.key} fileList={fileList} />;
           })}
         </TableBody>

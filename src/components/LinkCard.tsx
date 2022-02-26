@@ -4,7 +4,7 @@ import type { FC } from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
 import Avatar from "components/Avatar";
-import { FileList } from "types/fileList";
+import { FileLists } from "types/fileList";
 import {
   differenceInDays,
   differenceInHours,
@@ -13,46 +13,39 @@ import {
 } from "date-fns";
 
 interface LinkCardProps {
-  fileList: FileList;
+  fileList: FileLists;
 }
 
 const LinkCard = ({ fileList }: LinkCardProps) => {
   const [유효시간, 유효시간설정] = useState<number | string>();
+
+  const isExistDownload = fileList.download_count > 0;
 
   const navigate = useNavigate();
   const goToDetail = () => {
     navigate(`/detailpage/${fileList.key}`);
   };
 
-  const createdDate = new Date(fileList.created_at * 1000);
-  const expiresDate = new Date(fileList.expires_at * 1000);
-  console.log("test", createdDate);
-
-  const getCreatedDate = {
-    year: format(createdDate, "yyyy"),
-    month: format(createdDate, "MM"),
-    day: format(createdDate, "dd"),
-    hours: format(createdDate, "HH"),
-    minutes: format(createdDate, "HH"),
-    sec: format(createdDate, "mm"),
-  };
-
   const getExpiredTime = () => {
-    const expiredDate = differenceInDays(expiresDate, createdDate);
-    const expiredHours = differenceInHours(expiresDate, createdDate);
-    const expiredMinutes = differenceInMinutes(expiresDate, createdDate);
-    if (expiredDate >= 2) {
-      유효시간설정(`${expiredDate}일`);
+    const currentDate = new Date();
+    const expiresDate = new Date(fileList.expires_at * 1000);
+    const calExpiredDate = differenceInDays(expiresDate, currentDate);
+    const calExpiredHours = differenceInHours(expiresDate, currentDate);
+    const calExpiredMinutes = differenceInMinutes(expiresDate, currentDate);
+    if (Number(calExpiredHours) >= 48) {
+      유효시간설정(`${calExpiredDate}일`);
+    } else if (Number(calExpiredHours) > 0 && Number(calExpiredHours) < 48) {
+      setInterval(function () {
+        유효시간설정(`${calExpiredHours}시간${calExpiredMinutes}분`);
+      }, 60000);
     } else {
-      유효시간설정(`${expiredHours}시간${expiredMinutes}분`);
+      유효시간설정("만료됨");
     }
   };
 
-  setInterval(getExpiredTime, 60000);
-
   useEffect(() => {
     getExpiredTime();
-  }, []);
+  }, [유효시간]);
 
   return (
     <TableRow>
@@ -62,7 +55,7 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
             <img referrerPolicy="no-referrer" src="/svgs/default.svg" alt="" />
           </LinkImage>
           <LinkTexts>
-            <LinkTitle>로고파일</LinkTitle>
+            <LinkTitle>{fileList.summary}</LinkTitle>
             <LinkUrl onClick={goToDetail}>
               {유효시간 ? fileList.summary : "만료됨"}
             </LinkUrl>
@@ -80,12 +73,12 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
       </TableCell>
       <TableCell>
         <span>유효기간</span>
-        <span>{유효시간 ? 유효시간 : "만료됨"}</span>
+        <span>{유효시간}</span>
       </TableCell>
       <TableCell>
         <span>받은사람</span>
         <LinkReceivers>
-          <Avatar text="recruit@estmob.com" />
+          {isExistDownload && <Avatar text="recruit@estmob.com" />}
         </LinkReceivers>
       </TableCell>
     </TableRow>

@@ -1,6 +1,6 @@
-export type FileListRoot = FileList[];
+export type FileListRoot = FileLists[];
 
-export interface FileList {
+export interface FileLists {
   created_at: number;
   key: string;
   expires_at: number;

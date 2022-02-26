@@ -6,26 +6,26 @@ import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
 import { API } from "config";
-import { format } from "date-fns";
+import { FileLists } from "types/fileList";
+
+// interface DetailPageProps {
+//   el: FileLists | undefined;
+// }
 
 const DetailPage: FC = () => {
-  const { linkDetailId } = useParams();
   const url = `${API.linkList}`;
   const { data } = useAxios(url);
-  console.log(linkDetailId);
+  const { linkDetailId } = useParams();
 
   const findLinkPage = data.find((el) => el.key == linkDetailId);
+  console.log(findLinkPage);
 
-  const createdDate = new Date(data.fileList.created_at * 1000);
-
-  const getCreatedDate = {
-    year: format(createdDate, "yyyy"),
-    month: format(createdDate, "MM"),
-    day: format(createdDate, "dd"),
-    hours: format(createdDate, "HH"),
-    minutes: format(createdDate, "HH"),
-    sec: format(createdDate, "mm"),
-  };
+  const createdDate = new Date(findLinkPage?.created_at * 1000);
+  const getCreadtedYear = createdDate.getFullYear();
+  const getCreadteMonth = createdDate.getMonth() + 1;
+  const getCreadteDay = createdDate.getDay();
+  const getCreadteHours = createdDate.getHours();
+  const getCreadteMinutes = createdDate.getMinutes();
 
   return (
     <>
@@ -35,7 +35,11 @@ const DetailPage: FC = () => {
           <Url>localhost/7LF4MDLY</Url>
         </LinkInfo>
         <DownloadButton>
-          <img referrerPolicy="no-referrer" src="/svgs/download.svg" alt="" />
+          <img
+            referrerPolicy="no-referrer"
+            src="/svgs/download.svg"
+            alt="다운로드이미지"
+          />
           받기
         </DownloadButton>
       </Header>
@@ -43,26 +47,28 @@ const DetailPage: FC = () => {
         <Descrition>
           <Texts>
             <Top>링크 생성일</Top>
-            <Bottom>2022년 1월 12일 22:36 +09:00</Bottom>
+            <Bottom>
+              {`${getCreadtedYear}년 ${getCreadteMonth}월 ${getCreadteDay}일 ${getCreadteHours}:${getCreadteMinutes} +09:00`}
+            </Bottom>
             <Top>메세지</Top>
-            <Bottom>로고파일 전달 드립니다.</Bottom>
+            <Bottom>{findLinkPage?.sent.content}</Bottom>
             <Top>다운로드 횟수</Top>
-            <Bottom>1</Bottom>
+            <Bottom>{findLinkPage?.download_count}</Bottom>
           </Texts>
           <LinkImage>
-            <Image thumbnailUrl={findLinkPage?.thumbnailUrl} />
+            <Image />
           </LinkImage>
         </Descrition>
         <ListSummary>
-          <div>총 {findLinkPage?.files.length}개의 파일</div>
-          <div>10.86KB</div>
+          <div>총 {findLinkPage?.count}개의 파일</div>
+          <div>{findLinkPage?.size}KB</div>
         </ListSummary>
         <FileList>
           {findLinkPage?.files.map((items) => {
             return (
-              <FileListItem>
+              <FileListItem key={items.key}>
                 <FileItemInfo>
-                  <span thumbnailUrl={items?.thumbnailUrl} />
+                  <FileThumbnail thumbnailUrl={items?.thumbnailUrl} />
                   <span>{items.name}</span>
                 </FileItemInfo>
                 <FileItemSize>{items.size}KB</FileItemSize>
@@ -234,17 +240,17 @@ const FileItemInfo = styled.div`
   flex-basis: 50%;
   display: flex;
   align-items: center;
+`;
 
-  span:first-child {
-    width: 40px;
-    height: 40px;
-    margin-right: 12px;
-    display: inline-block;
-    background-image: url(/svgs/default.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
+const FileThumbnail = styled.span<{ thumbnailUrl: string }>`
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+  display: inline-block;
+  background-image: url(/svgs/adefltu.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
 `;
 
 const FileItemSize = styled.div``;

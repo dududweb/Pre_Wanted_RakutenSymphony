@@ -1,6 +1,6 @@
 const path = require("path");
 const { override, getBabelLoader } = require("customize-cra");
-const rewireSvgReactLoader = require("react-app-rewire-svg-react-loader");
+// const rewireSvgReactLoader = require("react-app-rewire-svg-react-loader");
 
 function removeBuiltinBabelConfig(config) {
   const loader = getBabelLoader(config);
@@ -18,9 +18,9 @@ function enableBabelConfig(config) {
   return config;
 }
 
-function enableSvg(config, env) {
-  config = rewireSvgReactLoader(config, env);
-  return config;
-}
+// function enableSvg(config, env) {
+//   config = rewireSvgReactLoader(config, env);
+//   return config;
+// }
 
 module.exports = override(removeBuiltinBabelConfig, enableBabelConfig);

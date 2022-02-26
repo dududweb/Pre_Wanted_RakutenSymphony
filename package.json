@@ -55,6 +55,5 @@
     "customize-cra": "^1.0.0",
     "react-app-rewire-svg-react-loader": "codebandits/react-app-rewire-svg-react-loader",
     "react-app-rewired": "^2.1.11"
-  },
-  "proxy": "https://storage-fe.fastraffic.io/"
+  }
 }

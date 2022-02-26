@@ -10,7 +10,7 @@ import { API } from "config";
 import DetailBody from "./DetailBody";
 
 const DetailPage: FC = () => {
-  const url = `${API.linkList}`;
+  const url = `${API}`;
   const { data } = useAxios(url);
   const { linkDetailId } = useParams();
 

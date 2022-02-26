@@ -8,7 +8,7 @@ import LinkCard from "components/LinkCard";
 import { FileLists } from "types/fileList";
 
 const LinkPage: FC = () => {
-  const url = `${API.linkList}`;
+  const url = `${API}`;
   const { data } = useAxios(url);
 
   return (

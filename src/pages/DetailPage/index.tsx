@@ -7,18 +7,17 @@ import colors from "styles/colors";
 import Button from "components/Button";
 import { API } from "config";
 import { FileLists } from "types/fileList";
-
-// interface DetailPageProps {
-//   el: FileLists | undefined;
-// }
+import { clipboardCopy } from "utils/utils";
+interface DetailPageProps {
+  el: FileLists | undefined;
+}
 
 const DetailPage: FC = () => {
   const url = `${API.linkList}`;
   const { data } = useAxios(url);
   const { linkDetailId } = useParams();
 
-  const findLinkPage = data.find((el) => el.key == linkDetailId);
-  console.log(findLinkPage);
+  const findLinkPage = data?.find((el) => el.key == linkDetailId);
 
   const createdDate = new Date(findLinkPage?.created_at * 1000);
   const getCreadtedYear = createdDate.getFullYear();
@@ -27,14 +26,18 @@ const DetailPage: FC = () => {
   const getCreadteHours = createdDate.getHours();
   const getCreadteMinutes = createdDate.getMinutes();
 
+  const handleClipBoardCopy = () => {
+    clipboardCopy(findLinkPage?.thumbnailUrl, findLinkPage?.thumbnailUrl);
+  };
+
   return (
     <>
       <Header>
         <LinkInfo>
           <Title>로고파일</Title>
-          <Url>localhost/7LF4MDLY</Url>
+          <Url>{findLinkPage?.thumbnailUrl}</Url>
         </LinkInfo>
-        <DownloadButton>
+        <DownloadButton onClick={handleClipBoardCopy}>
           <img
             referrerPolicy="no-referrer"
             src="/svgs/download.svg"

@@ -3,10 +3,36 @@ export const transformingDate = (timestamp: number) => {
   const date = new Date(timestamp * 1000);
   const year = date.getFullYear();
   const day = date.getDay();
-  // const day = String(date.getDate().padStart(2, "0"));
   return `${day}`;
 };
 
 interface calcDateDiffProps {
   type: string;
 }
+
+export const clipboardCopy = (text: string, url: string) => {
+  if (navigator.clipboard) {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        alert(`${url} 주소가 복사되었습니다.`);
+      })
+      .catch(() => {
+        alert("복사를 다시 시도해주세요.");
+      });
+  } else {
+    if (!document.queryCommandSupported("copy")) {
+      return alert("복사하기가 지원되지 않는 브라우저입니다.");
+    }
+
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+    alert(`${url} 주소가 복사되었습니다.`);
+  }
+};

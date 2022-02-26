@@ -16,6 +16,12 @@
 
 - [x] 링크 정보표시
 - [x] 다운버튼 알럿 표시
+      <br/>
+      <br/>
+
+### <a href="http://fileshare-rakuten.s3-website.ap-northeast-2.amazonaws.com/">🚀 배포링크</a>
+
+<br/>
 
 ## 개발 인원 및 기간
 

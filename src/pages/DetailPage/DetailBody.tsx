@@ -1,8 +1,8 @@
 import React from "react";
-import { getFileSize } from "utils/utils";
 import { FileLists } from "types/fileList";
 import styled from "styled-components";
 import colors from "styles/colors";
+import filesize from "filesize";
 
 interface DetailBodyProps {
   findLinkPage: FileLists;
@@ -17,7 +17,7 @@ const DetailBody = ({ findLinkPage }: DetailBodyProps) => {
   const getCreadteHours = createdDate.getHours();
   const getCreadteMinutes = createdDate.getMinutes();
 
-  const getSize = getFileSize(findLinkPage?.size);
+  const formatingSize = filesize.partial({ base: 2, standard: "jedec" });
 
   return (
     <Article>
@@ -38,7 +38,7 @@ const DetailBody = ({ findLinkPage }: DetailBodyProps) => {
       </Descrition>
       <ListSummary>
         <div>총 {findLinkPage.count}개의 파일</div>
-        <div>{getSize}</div>
+        <div>{formatingSize(findLinkPage.size)}</div>
       </ListSummary>
       <FileList>
         {findLinkPage?.files.map((items) => {
@@ -48,7 +48,7 @@ const DetailBody = ({ findLinkPage }: DetailBodyProps) => {
                 <FileThumbnail thumbnailUrl={items.thumbnailUrl} />
                 <span>{items.name}</span>
               </FileItemInfo>
-              <FileItemSize>{getSize}</FileItemSize>
+              <FileItemSize>{formatingSize(items.size)}</FileItemSize>
             </FileListItem>
           );
         })}

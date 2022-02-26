@@ -10,7 +10,8 @@ import {
   differenceInHours,
   differenceInMinutes,
 } from "date-fns";
-import { clipboardCopy, getFileSize } from "utils/utils";
+import { clipboardCopy } from "utils/utils";
+import filesize from "filesize";
 
 interface LinkCardProps {
   fileList: FileLists;
@@ -57,7 +58,7 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
     }
   };
 
-  const getSize = getFileSize(fileList.size);
+  const formatingSize = filesize.partial({ base: 2, standard: "jedec" });
 
   useEffect(() => {
     getExpiredTime();
@@ -85,7 +86,7 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
       </TableCell>
       <TableCell>
         <span>파일사이즈</span>
-        <span>{getSize}</span>
+        <span>{formatingSize(fileList.size)}</span>
       </TableCell>
       <TableCell>
         <span>유효기간</span>

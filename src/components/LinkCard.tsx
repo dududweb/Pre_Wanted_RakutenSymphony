@@ -10,20 +10,18 @@ import {
   differenceInHours,
   differenceInMinutes,
 } from "date-fns";
+import { clipboardCopy, getFileSize } from "utils/utils";
 
 interface LinkCardProps {
   fileList: FileLists;
 }
 
 const LinkCard = ({ fileList }: LinkCardProps) => {
-  const [유효시간, 유효시간설정] = useState<number | string>();
+  const [유효시간, 유효시간설정] = useState<any>();
 
   const isExistDownload = fileList.download_count > 0;
 
   const navigate = useNavigate();
-  const goToDetail = () => {
-    navigate(`/detailpage/${fileList.key}`);
-  };
 
   const getExpiredTime = () => {
     const currentDate = new Date();
@@ -31,6 +29,7 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
     const calExpiredDate = differenceInDays(expiresDate, currentDate);
     const calExpiredHours = differenceInHours(expiresDate, currentDate);
     const calExpiredMinutes = differenceInMinutes(expiresDate, currentDate);
+
     if (Number(calExpiredHours) >= 48) {
       유효시간설정(`${calExpiredDate}일`);
     } else if (Number(calExpiredHours) > 0 && Number(calExpiredHours) < 48) {
@@ -42,6 +41,24 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
     }
   };
 
+  const goToDetail = () => {
+    if (유효시간 > 0) {
+      return false;
+    } else {
+      navigate(`/detailpage/${fileList.key}`);
+    }
+  };
+
+  const handleClipBoardCopy = () => {
+    if (유효시간 < 0) {
+      return false;
+    } else {
+      clipboardCopy(fileList.thumbnailUrl, fileList.thumbnailUrl);
+    }
+  };
+
+  const getSize = getFileSize(fileList.size);
+
   useEffect(() => {
     getExpiredTime();
   }, [유효시간]);
@@ -50,13 +67,13 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
     <TableRow>
       <TableCell>
         <LinkInfo>
-          <LinkImage>
+          <LinkImage onClick={goToDetail}>
             <img referrerPolicy="no-referrer" src="/svgs/default.svg" alt="" />
           </LinkImage>
           <LinkTexts>
             <LinkTitle>{fileList.summary}</LinkTitle>
-            <LinkUrl onClick={goToDetail}>
-              {유효시간 ? fileList.summary : "만료됨"}
+            <LinkUrl onClick={handleClipBoardCopy} 유효시간={유효시간}>
+              {유효시간 > 0 ? fileList.thumbnailUrl : "만료됨"}
             </LinkUrl>
           </LinkTexts>
         </LinkInfo>
@@ -68,7 +85,7 @@ const LinkCard = ({ fileList }: LinkCardProps) => {
       </TableCell>
       <TableCell>
         <span>파일사이즈</span>
-        <span>{fileList.size}KB</span>
+        <span>{getSize}</span>
       </TableCell>
       <TableCell>
         <span>유효기간</span>
@@ -140,8 +157,9 @@ const LinkTitle = styled.p`
   color: ${colors.grey700};
 `;
 
-const LinkUrl = styled.a`
+const LinkUrl = styled.a<{ 유효시간: any }>`
   text-decoration: underline;
+  cursor: ${(props) => (props.유효시간 < 0 ? "not-allowed" : "pointer")};
 
   :hover {
     color: ${colors.teal700};

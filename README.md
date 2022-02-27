@@ -51,7 +51,7 @@
 ## 설치 및 시작하는 법
 
 - 파일 클론 받기
-- git clone https://github.com/wogh09/22_1_Team5_Messenger.git
+- git clone https://github.com/dududweb/Pre_Wanted_RakutenSymphony.git
 - yarn
 - yarn start
   </br>

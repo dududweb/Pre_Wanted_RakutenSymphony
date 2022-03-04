@@ -1,6 +1,7 @@
 # 🗂 라쿠텐심포니 파일쉐어
 
 ## 프로젝트 소개
+![image](https://user-images.githubusercontent.com/91524565/156747439-449a10e0-a88a-4e10-a09d-ba69a79e2a0a.png)
 
 파일 <br/>
 
